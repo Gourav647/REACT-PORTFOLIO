@@ -1,0 +1,12 @@
+.sidebar{
+    width: 215px;
+    height: 90.5vh;
+}
+
+.Home{
+    overflow-y: scroll;
+}
+
+.Home::-webkit-scrollbar{
+    width: 10px;
+}
