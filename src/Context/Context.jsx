@@ -7,19 +7,25 @@ const ContextProvider = (props) => {
     const [profile, setProfile] = useState([1, 2, 3]);
     const [loading, setLoading] = useState(false);
     const [avatars, setAvatars] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-    const [posts,setPosts] = useState([])
+    const [posts, setPosts] = useState([])
+    const [login, setLogin] = useState(true);
+    const [openDialogue, setOpenDialogue] = useState(false)
 
     const contextValue = {
         dark,
         setDark,
         profile,
         setProfile,
-        loading, 
+        loading,
         setLoading,
         avatars,
         setAvatars,
         posts,
-        setPosts
+        setPosts,
+        login,
+        setLogin,
+        openDialogue,
+        setOpenDialogue
     }
 
     return (
