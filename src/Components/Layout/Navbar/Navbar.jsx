@@ -11,6 +11,10 @@ const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
+  const onLogout = () => {
+    setLogin(false)
+  }
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -111,7 +115,7 @@ const Navbar = () => {
               Did you want to Logout ?
             </DialogTitle>
             <DialogActions sx={{ display: "flex", justifyContent: "start" }} onClick={handleOnCloseDialogue}>
-              <Button color="info" fullWidth onClick={() => { setLogin(false) }}>Logout</Button>
+              <Button color="info" fullWidth onClick={onLogout}>Logout</Button>
               <Button color="text" fullWidth >cancle</Button>
             </DialogActions>
           </Dialog>
