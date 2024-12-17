@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import "./App.css";
-import { createTheme, CssBaseline, Stack, ThemeProvider } from "@mui/material";
+import { Button, createTheme, CssBaseline, Stack, ThemeProvider } from "@mui/material";
 import { blue, green, grey, purple, red, yellow } from "@mui/material/colors";
 import { Context } from "./Context/Context";
 import Navbar from "./Components/Layout/Navbar/Navbar";
@@ -12,7 +12,7 @@ import Pages from "./Components/Layout/Pages/Pages";
 import PageNotFound from "./Components/Layout/PageNotFound/PageNotFound";
 
 const App = () => {
-  const { dark } = useContext(Context);
+  const { dark,login} = useContext(Context);
 
   const Theme = createTheme({
     palette: {
@@ -45,6 +45,8 @@ const App = () => {
       <ThemeProvider theme={Theme}>
         <Navbar />
         <CssBaseline />
+        {login 
+        ?
         <Stack direction="row" spacing={3} justifyContent="space-between">
           <Sidebar />
           <Routes>
@@ -54,6 +56,9 @@ const App = () => {
           </Routes>
           <RightBar />
         </Stack>
+        :
+        <Button>Hello</Button>
+        }
       </ThemeProvider>
     </div>
   );
