@@ -9,6 +9,7 @@ const ContextProvider = (props) => {
     const [avatars, setAvatars] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     const [posts, setPosts] = useState([])
     const [login, setLogin] = useState(true);
+    const [isLogout, setIsLogout] = useState(false)
     const [openDialogue, setOpenDialogue] = useState(false)
 
     const contextValue = {
@@ -25,7 +26,9 @@ const ContextProvider = (props) => {
         login,
         setLogin,
         openDialogue,
-        setOpenDialogue
+        setOpenDialogue,
+        isLogout,
+        setIsLogout
     }
 
     return (
