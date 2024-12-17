@@ -1,5 +1,5 @@
 import { useGSAP } from '@gsap/react'
-import { Logout, Mail, Message, Notifications, RingVolume } from '@mui/icons-material'
+import { DarkMode, LightMode, Logout, Mail, Message, Notifications, RingVolume } from '@mui/icons-material'
 import { AppBar, Avatar, Backdrop, Badge, Button, CircularProgress, Dialog, DialogActions, DialogTitle, Divider, IconButton, Menu, MenuItem, Stack, TextField, Toolbar, Typography } from '@mui/material'
 import { grey, red } from '@mui/material/colors'
 import React, { useContext, useState } from 'react'
@@ -7,7 +7,7 @@ import gsap from 'gsap'
 import { Context } from '../../../Context/Context'
 
 const Navbar = () => {
-  const { login, setLogin, openDialogue, setOpenDialogue, isLogout, setIsLogout } = useContext(Context)
+  const { login, setLogin, openDialogue, setOpenDialogue, isLogout, setIsLogout, setDark, dark } = useContext(Context)
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -60,10 +60,19 @@ const Navbar = () => {
             </Stack>
           </>
           :
-          <IconButton>
-            <Avatar/>
-          </IconButton>
-          }
+          <div>
+            <IconButton color='inherit' onClick={() => { setDark(!dark) }}>
+              {dark ?
+                <LightMode />
+                :
+                <DarkMode/>
+              }
+            </IconButton>
+            <IconButton>
+              <Avatar />
+            </IconButton>
+          </div>
+        }
         <Menu
           anchorEl={anchorEl}
           id="account-menu"
@@ -128,8 +137,8 @@ const Navbar = () => {
           </DialogActions>
         </Dialog>
         <Backdrop
-        sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
-        open={isLogout}
+          sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
+          open={isLogout}
         >
           <CircularProgress color="inherit" />
         </Backdrop>
