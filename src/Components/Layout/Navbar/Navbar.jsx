@@ -2,14 +2,15 @@ import { useGSAP } from '@gsap/react'
 import { Logout, Mail, Message, Notifications, RingVolume } from '@mui/icons-material'
 import { AppBar, Avatar, Badge, Button, Dialog, DialogActions, DialogTitle, Divider, IconButton, Menu, MenuItem, Stack, TextField, Toolbar, Typography } from '@mui/material'
 import { grey, red } from '@mui/material/colors'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import gsap from 'gsap'
+import { Context } from '../../../Context/Context'
 
 const Navbar = () => {
+  const { login, setLogin, openDialogue, setOpenDialogue } = useContext(Context)
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const [login, setLogin] = useState(true);
-  const [openDialogue, setOpenDialogue] = useState(false)
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
