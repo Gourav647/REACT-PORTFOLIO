@@ -7,7 +7,7 @@ import gsap from 'gsap'
 
 const Cards = (props) => {
   const [liked, setLiked] = useState(false);
-  const [likedPost,setLikedPost] = useState([])
+  const [likedPost, setLikedPost] = useState([])
 
   useGSAP(() => {
     gsap.fromTo(".like", {
@@ -46,7 +46,8 @@ const Cards = (props) => {
       </CardContent>
       <CardActions>
         <IconButton color={liked ? "warning" : "text"} onClick={(e) => {
-          setLiked(!liked); 
+          setLiked(!liked);
+          props.onLiked()
         }}>
           <Favorite className='like' />
         </IconButton>

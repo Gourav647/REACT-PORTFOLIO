@@ -1,5 +1,5 @@
 import { Box, Container, Skeleton, Stack, Toolbar } from "@mui/material";
-import React, { useContext, useEffect, useMemo } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import Cards from "../../Shared/Card/Cards";
 import { Context } from "../../../Context/Context";
 import scrollTrigger from 'gsap/ScrollTrigger'
@@ -10,6 +10,12 @@ gsap.registerPlugin(scrollTrigger)
 
 const Home = () => {
   const { profile, loading, avatars, posts, setPosts } = useContext(Context);
+  const [likedPost, setLikedPost] = useState([])
+
+  const handleOnLiked = () => {
+    setLikedPost([...likedPost,]);
+    console.log(likedPost);
+  }
 
   const post = useMemo(async () => {
     const promise = await fetch("https://jsonplaceholder.typicode.com/posts");
@@ -47,10 +53,11 @@ const Home = () => {
           {avatars.map((ele) => {
             return (
               <Cards
-                avatar={ele.download_url}
-                img={ele.download_url}
+                onLiked={() => { handleOnLiked() }}
                 title="Gourav paliwal"
+                img={ele.download_url}
                 subheader="GouravPaliwal"
+                avatar={ele.download_url}
                 description="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veritatis ad similique dolores"
               />
             )
