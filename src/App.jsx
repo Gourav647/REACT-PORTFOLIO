@@ -10,6 +10,7 @@ import RightBar from "./Components/Layout/RightBar/RightBar";
 import { Route, Routes } from "react-router-dom";
 import Pages from "./Components/Layout/Pages/Pages";
 import PageNotFound from "./Components/Layout/PageNotFound/PageNotFound";
+import LoginPage from "./Components/Layout/LoginPage/LoginPage";
 
 const App = () => {
   const { dark,login} = useContext(Context);
@@ -57,7 +58,7 @@ const App = () => {
           <RightBar />
         </Stack>
         :
-        <Button>Hello</Button>
+        <LoginPage/>
         }
       </ThemeProvider>
     </div>
