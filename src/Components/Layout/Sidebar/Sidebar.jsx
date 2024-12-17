@@ -40,14 +40,14 @@ import { Link } from "react-router-dom";
 const Sidebar = () => {
   const options = [
     { text: "Homepage", link: "/", icon: <Home /> },
-    { text: "Pages", link: "/pages", icon: <Pages/> },
+    { text: "Pages", link: "/pages", icon: <Pages /> },
     { text: "Groups", link: "997", icon: <Groups /> },
     { text: "Marketplace", link: "", icon: <Shop /> },
     { text: "Friends", link: "", icon: <Person2 /> },
     { text: "Settings", link: "", icon: <Settings /> },
     { text: "Profile", link: "", icon: <Person /> },
   ];
-  const { dark, setDark } = useContext(Context);
+  const { dark, setDark, login } = useContext(Context);
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const handleClose = () => {
@@ -114,14 +114,17 @@ const Sidebar = () => {
             </Button>
           </Stack>
           <Stack>
-            <Fab
-              color="primary"
-              onClick={() => {
-                handlOpen()
-              }}
-            >
-              <Add />
-            </Fab>
+            {login
+              &&
+              <Fab
+                color="primary"
+                onClick={() => {
+                  handlOpen()
+                }}
+              >
+                <Add />
+              </Fab>
+            }
             <Dialog
               fullWidth
               maxWidth="sm"
