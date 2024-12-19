@@ -47,14 +47,16 @@ const LoginPage = () => {
   };
   const subTitle = () => {
     return (
-      <Typography fontSize={13} sx={{ color: "text.dark" }}>
+      <Typography fontSize={13} sx={{ color: "text.main" }}>
         <p>Welcome user, please sign in to continue</p>
       </Typography>
     );
   };
 
   const forgotPassword = () => {
-    return <Link>Forgot password?</Link>;
+    return (
+    <Link>Forgot password?</Link>
+  );
   };
   const signUpLink = () => {
     return (
