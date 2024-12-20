@@ -8,7 +8,7 @@ const ContextProvider = (props) => {
     const [loading, setLoading] = useState(false);
     const [avatars, setAvatars] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     const [posts, setPosts] = useState([])
-    const [login, setLogin] = useState(true);
+    const [login, setLogin] = useState(false);
     const [isLogout, setIsLogout] = useState(false)
     const [openDialogue, setOpenDialogue] = useState(false)
 
