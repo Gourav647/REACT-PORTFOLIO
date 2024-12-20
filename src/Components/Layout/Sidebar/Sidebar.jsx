@@ -110,7 +110,7 @@ const Sidebar = () => {
                 :
                 <LightMode />
               }
-              <Switch onClick={() => setDark(!dark)} color='secondary' />
+              <Switch checked={dark} onClick={() => setDark(!dark)} color='secondary' />
             </Button>
           </Stack>
           <Stack>
