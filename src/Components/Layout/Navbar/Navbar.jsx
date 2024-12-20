@@ -1,8 +1,8 @@
 import { useGSAP } from '@gsap/react'
-import { DarkMode, LightMode, Logout, Mail, Message, Notifications, RingVolume } from '@mui/icons-material'
-import { AppBar, Avatar, Backdrop, Badge, Button, CircularProgress, Dialog, DialogActions, DialogTitle, Divider, IconButton, Menu, MenuItem, Stack, TextField, Toolbar, Typography } from '@mui/material'
+import { DarkMode, LightMode, Logout, Mail, Message, Notifications, RingVolume, Search } from '@mui/icons-material'
+import { AppBar, Avatar, Backdrop, Badge, Button, CircularProgress, Dialog, DialogActions, DialogTitle, Divider, IconButton, InputLabel, Menu, MenuItem, OutlinedInput, Stack, TextField, Toolbar, Typography } from '@mui/material'
 import { grey, red } from '@mui/material/colors'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { Context } from '../../../Context/Context'
 
@@ -10,6 +10,8 @@ const Navbar = () => {
   const { login, setLogin, openDialogue, setOpenDialogue, isLogout, setIsLogout, setDark, dark } = useContext(Context)
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const [searchBarWidth, setSearchBarWidth] = useState("50%");
+  const navright = useRef()
 
   const onLogout = async () => {
     setIsLogout(true)
@@ -27,6 +29,15 @@ const Navbar = () => {
   const handleOnCloseDialogue = () => setOpenDialogue(false)
 
   useGSAP(() => {
+    gsap.to(".nav-rightside", {
+      width: searchBarWidth,
+      duration: .5,
+      ease: "power4.out"
+    })
+  }, [searchBarWidth])
+
+
+  useGSAP(() => {
     gsap.from(".badge", {
       stagger: .08,
       scale: 0,
@@ -34,45 +45,61 @@ const Navbar = () => {
       ease: "elastic.inOut"
     })
   })
+
+
   return (
     <AppBar color='primary' position='relative'>
       <Toolbar sx={{ justifyContent: "space-between" }}>
         <Typography textTransform="uppercase" fontSize={20}>
           Example Dev
         </Typography>
-        {login ?
-          <>
-            <TextField sx={{ backgroundColor: "white", borderRadius: "10px", width: "40%" }} placeholder='Search...' />
-            <Stack direction='row' spacing={1.5} sx={{ alignItems: "center" }}>
-              <IconButton>
-                <Badge badgeContent={3} color='warning' className='badge'>
-                  <Mail sx={{ color: "white" }} />
-                </Badge>
-              </IconButton>
-              <IconButton>
-                <Badge badgeContent={2} color='warning' className='badge'>
-                  <Notifications sx={{ color: "white" }} />
-                </Badge>
-              </IconButton>
-              <IconButton disableRipple onClick={handleClick}>
-                <Avatar sx={{ height: 30, width: 30 }} src='https://lh3.googleusercontent.com/a/ACg8ocLxX3JkRQ7iWSxTVMJLFswL-GHDuf92403Q6_apGXmexnVXVZg=s360-c-no' />
-              </IconButton>
+        <Stack flexDirection="row" width={"50%"} justifyContent="end">
+          {login ?
+            <Stack flexDirection={"row"} justifyContent="end" className='nav-rightside'>
+              <OutlinedInput
+                onFocus={() => {
+                  setSearchBarWidth("100%")
+                }}
+                onBlur={() => {
+                  setSearchBarWidth("50%")
+                }}
+                startAdornment={
+                  <startAdornment>
+                    <IconButton edge="start" >
+                      <Search />
+                    </IconButton>
+                  </startAdornment>} placeholder='Search' sx={{ backgroundColor: "white", borderRadius: "10px", width: "40%" }} />
+              <Stack direction='row' spacing={1.5} sx={{ alignItems: "center" }}>
+                <IconButton>
+                  <Badge badgeContent={3} color='warning' className='badge'>
+                    <Mail sx={{ color: "white" }} />
+                  </Badge>
+                </IconButton>
+                <IconButton>
+                  <Badge badgeContent={2} color='warning' className='badge'>
+                    <Notifications sx={{ color: "white" }} />
+                  </Badge>
+                </IconButton>
+                <IconButton disableRipple onClick={handleClick}>
+                  <Avatar sx={{ height: 30, width: 30 }} src='https://lh3.googleusercontent.com/a/ACg8ocLxX3JkRQ7iWSxTVMJLFswL-GHDuf92403Q6_apGXmexnVXVZg=s360-c-no' />
+                </IconButton>
+              </Stack>
             </Stack>
-          </>
-          :
-          <div>
-            <IconButton color='inherit' onClick={() => { setDark(!dark) }}>
-              {dark ?
-                <LightMode />
-                :
-                <DarkMode/>
-              }
-            </IconButton>
-            <IconButton>
-              <Avatar />
-            </IconButton>
-          </div>
-        }
+            :
+            <div>
+              <IconButton color='inherit' onClick={() => { setDark(!dark) }}>
+                {dark ?
+                  <LightMode />
+                  :
+                  <DarkMode />
+                }
+              </IconButton>
+              <IconButton>
+                <Avatar />
+              </IconButton>
+            </div>
+          }
+        </Stack>
         <Menu
           anchorEl={anchorEl}
           id="account-menu"
