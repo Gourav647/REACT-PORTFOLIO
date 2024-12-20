@@ -11,31 +11,27 @@ import {
   Typography,
 } from "@mui/material";
 import { SignInPage } from "@toolpad/core";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { Context } from "../../../Context/Context";
 
 const LoginPage = () => {
   const providers = [{ id: "credentials", name: "Email and age" }];
   const [showPassword, setShowPassword] = useState(false);
+  const { login, setLogin } = useContext(Context);
 
-  const signin = (providers, formData) => {
+  const signIn = async (providers, formData) => {
     const promise = new Promise((resolve) => {
       setTimeout(() => {
         alert(
           `Signing with ${providers.name} and credentials: ${formData.get("email")},${formData.get("password")}`
         );
+        console.log("Sign in");
+        setLogin(true)
+        resolve();
       }, 300);
-      resolve();
     });
-  };
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
-
-  const handleMouseUpPassword = (event) => {
-    event.preventDefault();
+    return promise;
   };
 
   const title = () => {
@@ -55,8 +51,8 @@ const LoginPage = () => {
 
   const forgotPassword = () => {
     return (
-    <Link>Forgot password?</Link>
-  );
+      <Link>Forgot password?</Link>
+    );
   };
   const signUpLink = () => {
     return (
@@ -72,7 +68,7 @@ const LoginPage = () => {
   return (
     <Container>
       <SignInPage
-        signIn={signin}
+        signIn={signIn}
         providers={providers}
         slotProps={{ submitButton: { color: "success" } }}
         slots={{
