@@ -61,8 +61,8 @@ const Sidebar = () => {
   useGSAP(() => {
     gsap.from(".l-btn", {
       x: -300,
-      stagger: .05,
-      duration: 1,
+      stagger: .025,
+      duration: 1.3,
       delay: .5,
       ease: "circ.out"
     })
