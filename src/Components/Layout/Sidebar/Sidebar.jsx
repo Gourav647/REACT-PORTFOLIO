@@ -48,7 +48,7 @@ const Sidebar = () => {
     { text: "Settings", link: "", icon: <Settings /> },
     { text: "Profile", link: "", icon: <Person /> },
   ];
-  const { dark, setDark, login } = useContext(Context);
+  const { dark, setDark, login, newPost,setNewPost,handleChange} = useContext(Context);
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const VisuallyHidenInput = styled('input')({
