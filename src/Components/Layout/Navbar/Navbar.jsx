@@ -26,6 +26,7 @@ import {
   MenuItem,
   OutlinedInput,
   Stack,
+  styled,
   TextField,
   Toolbar,
   Typography,
@@ -49,7 +50,26 @@ const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [searchBarWidth, setSearchBarWidth] = useState("50%");
+  const [UploadProfilePic, setUploadProfilePic] = useState(
+    ""
+  );
   const navright = useRef();
+  const VisuallyHiddenInput = styled("input")({
+    clip: "rect(0 0 0 0)",
+    clipPath: "inset(50%)",
+    height: 1,
+    overflow: "hidden",
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    whiteSpace: "nowrap",
+    width: 1,
+  });
+
+  const handleChange = async (event) => {
+    await setUploadProfilePic(URL.createObjectURL(event.target.files[0]));
+    handleClose()
+  };
 
   const onLogout = async () => {
     setIsLogout(true);
@@ -116,7 +136,7 @@ const Navbar = () => {
                   borderRadius: "10px",
                   width: "40%",
                   border: "1.5px solid",
-                  borderColor: dark ? "primary.main" : "black"
+                  borderColor: dark ? "primary.main" : "black",
                 }}
               />
               <Stack
@@ -136,8 +156,8 @@ const Navbar = () => {
                 </IconButton>
                 <IconButton disableRipple onClick={handleClick}>
                   <Avatar
-                    sx={{ height: 30, width: 30 }}
-                    src="https://lh3.googleusercontent.com/a/ACg8ocLxX3JkRQ7iWSxTVMJLFswL-GHDuf92403Q6_apGXmexnVXVZg=s360-c-no"
+                    sx={{ height: 40, width: 40, objectFit: "cover" }}
+                    src={UploadProfilePic}
                   />
                 </IconButton>
               </Stack>
@@ -163,7 +183,7 @@ const Navbar = () => {
           id="account-menu"
           open={open}
           onClose={handleClose}
-          onClick={handleClose}
+          // onBlur={handleClose}
           slotProps={{
             paper: {
               elevation: 0,
@@ -195,9 +215,15 @@ const Navbar = () => {
           transformOrigin={{ horizontal: "right", vertical: "top" }}
           anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
         >
-          <MenuItem>
+          <MenuItem component="label">
             <Avatar src="https://lh3.googleusercontent.com/a/ACg8ocLxX3JkRQ7iWSxTVMJLFswL-GHDuf92403Q6_apGXmexnVXVZg=s360-c-no" />{" "}
-            Profile
+            Upload profile pic
+            <VisuallyHiddenInput
+              type="file"
+              id="upload-profile-pic"
+              multiple
+              onChange={handleChange}
+            />
           </MenuItem>
           <MenuItem>
             <Avatar /> My account
