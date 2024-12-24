@@ -26,7 +26,7 @@ const App = () => {
       secondary:{
         main: blue[700]
       },
-      warning: {
+      error: {
         light: red[500],
         main: red[600],
       },
