@@ -13,6 +13,9 @@ const ContextProvider = (props) => {
     const [openDialogue, setOpenDialogue] = useState(false);
     const [newPost, setNewPost] = useState("");
     const [UploadProfilePic, setUploadProfilePic] = useState("https://lh3.googleusercontent.com/a/ACg8ocLxX3JkRQ7iWSxTVMJLFswL-GHDuf92403Q6_apGXmexnVXVZg=s360-c-no");
+    const [postTitle, setPostTitle] = useState("");
+    const [postSubTitle, setPostSubTitle] = useState("");
+    const [postDescription, setPostDescription] = useState("");
 
     const handleChange =  (event) => {
         const file = event.target.files[0];
@@ -43,7 +46,13 @@ const ContextProvider = (props) => {
         setNewPost,
         UploadProfilePic,
         setUploadProfilePic,
-        handleChange
+        handleChange,
+        postTitle,
+        setPostTitle,
+        postSubTitle,
+        setPostSubTitle,
+        postDescription,
+        setPostDescription
     }
 
     return (
