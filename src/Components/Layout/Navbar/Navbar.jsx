@@ -46,13 +46,14 @@ const Navbar = () => {
     setIsLogout,
     setDark,
     dark,
+    UploadProfilePic,
+    setUploadProfilePic,
+    handleChange
   } = useContext(Context);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [searchBarWidth, setSearchBarWidth] = useState("50%");
-  const [UploadProfilePic, setUploadProfilePic] = useState(
-    ""
-  );
+
   const navright = useRef();
   const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
@@ -66,10 +67,10 @@ const Navbar = () => {
     width: 1,
   });
 
-  const handleChange = async (event) => {
-    await setUploadProfilePic(URL.createObjectURL(event.target.files[0]));
-    handleClose()
-  };
+  // const handleChange = async (event) => {
+  //   await setUploadProfilePic(URL.createObjectURL(event.target.files[0]));
+  //   handleClose()
+  // };
 
   const onLogout = async () => {
     setIsLogout(true);
@@ -222,7 +223,7 @@ const Navbar = () => {
               type="file"
               id="upload-profile-pic"
               multiple
-              onChange={handleChange}
+              onChange={(event) => { setUploadProfilePic(handleChange(event)) }}
             />
           </MenuItem>
           <MenuItem>
