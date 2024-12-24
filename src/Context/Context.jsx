@@ -11,12 +11,15 @@ const ContextProvider = (props) => {
     const [login, setLogin] = useState(false);
     const [isLogout, setIsLogout] = useState(false)
     const [openDialogue, setOpenDialogue] = useState(false);
-    const [newPost, setNewPost] = useState(false);
-    const [UploadProfilePic, setUploadProfilePic] = useState("");
-    const handleChange = async (event) => {
-        const file = URL.createObjectURL(event.target.files[0]);
+    const [newPost, setNewPost] = useState("");
+    const [UploadProfilePic, setUploadProfilePic] = useState("https://lh3.googleusercontent.com/a/ACg8ocLxX3JkRQ7iWSxTVMJLFswL-GHDuf92403Q6_apGXmexnVXVZg=s360-c-no");
+
+    const handleChange =  (event) => {
+        const file = event.target.files[0];
+        const imgUrl = URL.createObjectURL(file);
+        
         // handleClose()
-        return file
+        return imgUrl
       };
 
     const contextValue = {
