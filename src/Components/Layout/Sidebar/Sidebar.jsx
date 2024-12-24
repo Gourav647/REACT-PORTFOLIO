@@ -35,10 +35,10 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useTransition } from "react";
 import { Context } from "../../../Context/Context";
 import { useGSAP } from "@gsap/react";
-import gsap from 'gsap'
+import gsap from "gsap";
 import { Link } from "react-router-dom";
 
 const Sidebar = () => {
@@ -51,49 +51,68 @@ const Sidebar = () => {
     { text: "Settings", link: "", icon: <Settings /> },
     { text: "Profile", link: "", icon: <Person /> },
   ];
-  const { dark, setDark, login, newPost, setNewPost, handleChange } = useContext(Context);
+  const {
+    dark,
+    setDark,
+    login,
+    newPost,
+    setNewPost,
+    handleChange,
+    postTitle,
+    setPostTitle,
+    PostSubTitle,
+    setPostSubtitle,
+    postDescription,
+    setPostDescription,
+    posts,
+    setPosts
+  } = useContext(Context);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [discardPost, setDiscardPost] = useState(false);
   const [alert, setAlert] = useState(false);
+  const [isPending, setTransition] = useTransition();
 
-  const VisuallyHidenInput = styled('input')({
+  const VisuallyHidenInput = styled("input")({
     border: 0,
-    clip: 'rect(0 0 0 0)',
+    clip: "rect(0 0 0 0)",
     height: 1,
     margin: -1,
-    overflow: 'hidden',
+    overflow: "hidden",
     padding: 0,
-    position: 'absolute',
-    whiteSpace: 'nowrap',
+    position: "absolute",
+    whiteSpace: "nowrap",
     width: 1,
   });
 
-  const handlePost = () => {
-    if(newPost !== "" && newPost !== null){
-      console.log("Post created")
-    }
-    else{
-      setAlert(true)
-    }
-  }
+  const handlePost = async () => {
+     setTransition(() => {
+      if (newPost !== "" && postTitle !== "" && postDescription !== "" && postSubtitle !== ""){
+        console.log("Post created");
+        setPosts([...posts, {newPost, postTitle, postSubtitle, postDescription}]);
+        handleClose();
+      } else {
+        setAlert(true);
+      }
+    });
+  };
 
   const handleClose = () => {
-    setDialogOpen(false)
-  }
+    setDialogOpen(false);
+  };
 
   const handlOpen = () => {
-    setDialogOpen(true)
-  }
+    setDialogOpen(true);
+  };
 
   useGSAP(() => {
     gsap.from(".l-btn", {
       x: -300,
-      stagger: .025,
+      stagger: 0.025,
       duration: 1.3,
-      delay: .5,
-      ease: "circ.out"
-    })
-  })
+      delay: 0.5,
+      ease: "circ.out",
+    });
+  });
 
   return (
     <section className="sidebar">
@@ -106,10 +125,7 @@ const Sidebar = () => {
           <Stack direction="column" spacing={1.5}>
             {options.map((ele) => {
               return (
-                <Link
-                  to={ele.link}
-                  style={{ textDecoration: "none" }}
-                >
+                <Link to={ele.link} style={{ textDecoration: "none" }}>
                   <Button
                     color="text"
                     // href={ele.link}
@@ -130,55 +146,78 @@ const Sidebar = () => {
               sx={{ gap: 3, justifyContent: "start", display: "flex" }}
               fullWidth
             >
-              {dark ?
+              {dark ? (
                 <DarkMode
                   sx={{ perspective: 1000, transform: "rotateY(180deg)" }}
                 />
-                :
+              ) : (
                 <LightMode />
-              }
-              <Switch checked={dark} onClick={() => setDark(!dark)} color='secondary' />
+              )}
+              <Switch
+                checked={dark}
+                onClick={() => setDark(!dark)}
+                color="secondary"
+              />
             </Button>
           </Stack>
           <Stack>
-            {login
-              &&
+            {login && (
               <Tooltip title="Create post" arrow placement="right">
-              <Fab
-                color="primary"
-                onClick={() => {
-                  handlOpen()
-                }}
-              >
-                <Add />
-              </Fab>
-            </Tooltip>
-            }
+                <Fab
+                  color="primary"
+                  onClick={() => {
+                    handlOpen();
+                  }}
+                >
+                  <Add />
+                </Fab>
+              </Tooltip>
+            )}
             <Dialog
               fullWidth
               maxWidth="sm"
               open={dialogOpen}
               component="form"
               onClose={() => {
-                handleClose()
+                handleClose();
               }}
             >
               <DialogActions sx={{ padding: "0" }}>
-                <IconButton disableRipple onClick={() => { setDiscardPost(true) }}>
+                <IconButton
+                  disableRipple
+                  onClick={() => {
+                    setDiscardPost(true);
+                  }}
+                >
                   <Close />
                 </IconButton>
                 {/* Discard post dialog */}
-                <Dialog open={discardPost} maxWidth="xl" >
+                <Dialog open={discardPost} maxWidth="xl">
                   <DialogContent>
                     <Typography fontWeight={600} textAlign="center">
                       Discard post ?
                     </Typography>
                   </DialogContent>
                   <DialogActions>
-                    <Button color="error" fullWidth onClick={() => { setNewPost(""); setDiscardPost(false); setAlert(false);handleClose()}}>
+                    <Button
+                      color="error"
+                      fullWidth
+                      onClick={() => {
+                        setNewPost("");
+                        setDiscardPost(false);
+                        setAlert(false);
+                        handleClose();
+                      }}
+                    >
                       Discard
                     </Button>
-                    <Button color="success" fullWidth onClick={() => { setDiscardPost(false) }}>
+                    <Button
+                      color="success"
+                      fullWidth
+                      onClick={() => {
+                        setDiscardPost(false);
+                      }}
+                    >
                       Cancel
                     </Button>
                   </DialogActions>
@@ -187,23 +226,49 @@ const Sidebar = () => {
               <DialogTitle textAlign="center" fontWeight={600}>
                 Create post
               </DialogTitle>
-              <DialogContent >
+              <DialogContent>
                 <Stack direction="row" spacing={2} alignItems="center">
                   <Avatar src="https://lh3.googleusercontent.com/a/ACg8ocLxX3JkRQ7iWSxTVMJLFswL-GHDuf92403Q6_apGXmexnVXVZg=s360-c-no" />{" "}
                   <Typography>Gourav Paliwal</Typography>
                 </Stack>
-                <Stack direction="row" spacing={2} alignItems="start" sx={{ marginTop: 2 }}>
+                <Stack
+                  direction="row"
+                  spacing={2}
+                  alignItems="start"
+                  sx={{ marginTop: 2 }}
+                >
                   <Box component={"div"} sx={{ width: "60%", height: "100%" }}>
-                    {newPost !== "" ? <img src={newPost} width={"100%"} height={"100%"} />
-                      :
-                      <Box component={"div"} sx={{ width: "100%", height: "270px", border: "1px dashed", borderRadius: "5px", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                        <Typography textAlign="center" fontWeight={600} color="text.secondary">
+                    {newPost !== "" ? (
+                      <img src={newPost} width={"100%"} height={"100%"} />
+                    ) : (
+                      <Box
+                        component={"div"}
+                        sx={{
+                          width: "100%",
+                          height: "270px",
+                          border: "1px dashed",
+                          borderRadius: "5px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Typography
+                          textAlign="center"
+                          fontWeight={600}
+                          color="text.secondary"
+                        >
                           Upload a photo
                         </Typography>
                       </Box>
-                    }
+                    )}
                   </Box>
-                  <Stack direction="column" spacing={2} alignItems="start" width={"100%"}>
+                  <Stack
+                    direction="column"
+                    spacing={2}
+                    alignItems="start"
+                    width={"100%"}
+                  >
                     <TextField
                       color="secondary"
                       id="outlined-multiline-static"
@@ -237,31 +302,47 @@ const Sidebar = () => {
                   </Stack>
                 </Stack>
               </DialogContent>
-              {alert && <Alert severity="warning" sx={{margin: 1}} color="warning" >Please add a Photo or a Description</Alert>}
+              {alert && (
+                <Alert severity="warning" sx={{ margin: 1 }} color="warning">
+                  Please add a Photo or a Description
+                </Alert>
+              )}
               <DialogActions sx={{ justifyContent: "start" }}>
                 <IconButton color="secondary">
                   <EmojiEmotions />
                 </IconButton>
-                <IconButton sx={{ color: "primary.light" }} role={undefined} component="label">
+                <IconButton
+                  sx={{ color: "primary.light" }}
+                  role={undefined}
+                  component="label"
+                >
                   <Photo />
-                  <VisuallyHidenInput type="file" onChange={(event) => {
-                    setNewPost(handleChange(event))
-                  }} />
+                  <VisuallyHidenInput
+                    type="file"
+                    onChange={(event) => {
+                      setNewPost(handleChange(event));
+                    }}
+                  />
                 </IconButton>
                 <IconButton color="success">
                   <Videocam />
                 </IconButton>
-                <IconButton sx={{ color: "warning.light" }}>
+                <IconButton sx={{ color: "error.light" }}>
                   <PersonAdd />
                 </IconButton>
               </DialogActions>
               <DialogActions>
-                <Button variant="contained" color="primary" fullWidth sx={{ marginBottom: 3 }}
+                <Button
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  sx={{ marginBottom: 3 }}
                   onClick={() => {
-                    handlePost()
-                    handleClose()
-                  }}>
-                  Post
+                    handlePost();
+                  }}
+                  disabled={isPending}
+                >
+                  {isPending ? "Posting..." : "Post"}
                 </Button>
               </DialogActions>
             </Dialog>
