@@ -17,7 +17,9 @@ import {
   Videocam,
 } from "@mui/icons-material";
 import {
+  Alert,
   Avatar,
+  Box,
   Button,
   Dialog,
   DialogActions,
@@ -30,6 +32,7 @@ import {
   Switch,
   TextField,
   Toolbar,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import React, { useContext, useState } from "react";
@@ -48,8 +51,10 @@ const Sidebar = () => {
     { text: "Settings", link: "", icon: <Settings /> },
     { text: "Profile", link: "", icon: <Person /> },
   ];
-  const { dark, setDark, login, newPost,setNewPost,handleChange} = useContext(Context);
+  const { dark, setDark, login, newPost, setNewPost, handleChange } = useContext(Context);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [discardPost, setDiscardPost] = useState(false);
+  const [alert, setAlert] = useState(false);
 
   const VisuallyHidenInput = styled('input')({
     border: 0,
@@ -62,6 +67,15 @@ const Sidebar = () => {
     whiteSpace: 'nowrap',
     width: 1,
   });
+
+  const handlePost = () => {
+    if(newPost !== "" && newPost !== null){
+      console.log("Post created")
+    }
+    else{
+      setAlert(true)
+    }
+  }
 
   const handleClose = () => {
     setDialogOpen(false)
@@ -129,6 +143,7 @@ const Sidebar = () => {
           <Stack>
             {login
               &&
+              <Tooltip title="Create post" arrow placement="right">
               <Fab
                 color="primary"
                 onClick={() => {
@@ -137,6 +152,7 @@ const Sidebar = () => {
               >
                 <Add />
               </Fab>
+            </Tooltip>
             }
             <Dialog
               fullWidth
@@ -148,35 +164,89 @@ const Sidebar = () => {
               }}
             >
               <DialogActions sx={{ padding: "0" }}>
-                <IconButton disableRipple onClick={handleClose}>
+                <IconButton disableRipple onClick={() => { setDiscardPost(true) }}>
                   <Close />
                 </IconButton>
+                {/* Discard post dialog */}
+                <Dialog open={discardPost} maxWidth="xl" >
+                  <DialogContent>
+                    <Typography fontWeight={600} textAlign="center">
+                      Discard post ?
+                    </Typography>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button color="error" fullWidth onClick={() => { setNewPost(""); setDiscardPost(false); setAlert(false);handleClose()}}>
+                      Discard
+                    </Button>
+                    <Button color="success" fullWidth onClick={() => { setDiscardPost(false) }}>
+                      Cancel
+                    </Button>
+                  </DialogActions>
+                </Dialog>
               </DialogActions>
               <DialogTitle textAlign="center" fontWeight={600}>
                 Create post
               </DialogTitle>
-              <DialogContent>
+              <DialogContent >
                 <Stack direction="row" spacing={2} alignItems="center">
                   <Avatar src="https://lh3.googleusercontent.com/a/ACg8ocLxX3JkRQ7iWSxTVMJLFswL-GHDuf92403Q6_apGXmexnVXVZg=s360-c-no" />{" "}
                   <Typography>Gourav Paliwal</Typography>
                 </Stack>
-                <TextField
-                  color="white"
-                  id="outlined-multiline-static"
-                  multiline
-                  rows={3}
-                  variant="standard"
-                  fullWidth
-                  margin="normal"
-                />
+                <Stack direction="row" spacing={2} alignItems="start" sx={{ marginTop: 2 }}>
+                  <Box component={"div"} sx={{ width: "60%", height: "100%" }}>
+                    {newPost !== "" ? <img src={newPost} width={"100%"} height={"100%"} />
+                      :
+                      <Box component={"div"} sx={{ width: "100%", height: "270px", border: "1px dashed", borderRadius: "5px", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        <Typography textAlign="center" fontWeight={600} color="text.secondary">
+                          Upload a photo
+                        </Typography>
+                      </Box>
+                    }
+                  </Box>
+                  <Stack direction="column" spacing={2} alignItems="start" width={"100%"}>
+                    <TextField
+                      color="secondary"
+                      id="outlined-multiline-static"
+                      multiline
+                      rows={1}
+                      label="Title"
+                      variant="outlined"
+                      fullWidth
+                      margin="normal"
+                    />
+                    <TextField
+                      color="secondary"
+                      id="outlined-multiline-static"
+                      multiline
+                      label="subtitle"
+                      rows={1}
+                      variant="outlined"
+                      fullWidth
+                      margin="normal"
+                    />
+                    <TextField
+                      color="secondary"
+                      id="outlined-multiline-static"
+                      multiline
+                      label="Description"
+                      rows={4}
+                      variant="filled"
+                      fullWidth
+                      margin="normal"
+                    />
+                  </Stack>
+                </Stack>
               </DialogContent>
+              {alert && <Alert severity="warning" sx={{margin: 1}} color="warning" >Please add a Photo or a Description</Alert>}
               <DialogActions sx={{ justifyContent: "start" }}>
                 <IconButton color="secondary">
                   <EmojiEmotions />
                 </IconButton>
                 <IconButton sx={{ color: "primary.light" }} role={undefined} component="label">
                   <Photo />
-                  <VisuallyHidenInput type="file" onChange={handleChange}/>
+                  <VisuallyHidenInput type="file" onChange={(event) => {
+                    setNewPost(handleChange(event))
+                  }} />
                 </IconButton>
                 <IconButton color="success">
                   <Videocam />
@@ -188,6 +258,7 @@ const Sidebar = () => {
               <DialogActions>
                 <Button variant="contained" color="primary" fullWidth sx={{ marginBottom: 3 }}
                   onClick={() => {
+                    handlePost()
                     handleClose()
                   }}>
                   Post
