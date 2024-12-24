@@ -10,7 +10,14 @@ const ContextProvider = (props) => {
     const [posts, setPosts] = useState([])
     const [login, setLogin] = useState(false);
     const [isLogout, setIsLogout] = useState(false)
-    const [openDialogue, setOpenDialogue] = useState(false)
+    const [openDialogue, setOpenDialogue] = useState(false);
+    const [newPost, setNewPost] = useState(false);
+    const [UploadProfilePic, setUploadProfilePic] = useState("");
+    const handleChange = async (event) => {
+        const file = URL.createObjectURL(event.target.files[0]);
+        // handleClose()
+        return file
+      };
 
     const contextValue = {
         dark,
@@ -28,7 +35,12 @@ const ContextProvider = (props) => {
         openDialogue,
         setOpenDialogue,
         isLogout,
-        setIsLogout
+        setIsLogout,
+        newPost,
+        setNewPost,
+        UploadProfilePic,
+        setUploadProfilePic,
+        handleChange
     }
 
     return (
