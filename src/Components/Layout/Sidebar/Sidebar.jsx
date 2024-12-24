@@ -26,6 +26,7 @@ import {
   Fab,
   IconButton,
   Stack,
+  styled,
   Switch,
   TextField,
   Toolbar,
@@ -49,6 +50,18 @@ const Sidebar = () => {
   ];
   const { dark, setDark, login } = useContext(Context);
   const [dialogOpen, setDialogOpen] = useState(false);
+
+  const VisuallyHidenInput = styled('input')({
+    border: 0,
+    clip: 'rect(0 0 0 0)',
+    height: 1,
+    margin: -1,
+    overflow: 'hidden',
+    padding: 0,
+    position: 'absolute',
+    whiteSpace: 'nowrap',
+    width: 1,
+  });
 
   const handleClose = () => {
     setDialogOpen(false)
@@ -161,8 +174,9 @@ const Sidebar = () => {
                 <IconButton color="secondary">
                   <EmojiEmotions />
                 </IconButton>
-                <IconButton sx={{ color: "primary.light" }}>
+                <IconButton sx={{ color: "primary.light" }} role={undefined} component="label">
                   <Photo />
+                  <VisuallyHidenInput type="file" onChange={handleChange}/>
                 </IconButton>
                 <IconButton color="success">
                   <Videocam />
