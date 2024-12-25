@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useTransition } from "react";
 
 export const Context = createContext();
 
@@ -16,11 +16,14 @@ const ContextProvider = (props) => {
     const [postTitle, setPostTitle] = useState("");
     const [postSubTitle, setPostSubTitle] = useState("");
     const [postDescription, setPostDescription] = useState("");
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [alert, setAlert] = useState(false);
+    const [discardPost, setDiscardPost] = useState(false);
+    const [isPending, setTransition] = useTransition();
 
     const handleChange =  (event) => {
         const file = event.target.files[0];
         const imgUrl = URL.createObjectURL(file);
-        
         // handleClose()
         return imgUrl
       };
@@ -52,7 +55,15 @@ const ContextProvider = (props) => {
         postSubTitle,
         setPostSubTitle,
         postDescription,
-        setPostDescription
+        setPostDescription,
+        dialogOpen,
+        setDialogOpen,
+        alert,
+        setAlert,
+        discardPost,
+        setDiscardPost,
+        isPending,
+        setTransition
     }
 
     return (
