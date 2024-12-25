@@ -45,6 +45,7 @@ const Newpost = () => {
         setPosts,
         UploadProfilePic,
         isPending,
+        setUploaded
     } = useContext(Context)
     const VisuallyHidenInput = styled("input")({
         border: 0,
@@ -69,6 +70,7 @@ const Newpost = () => {
                 console.log(posts);
                 setPostTitle("");
                 handleClose();
+                setUploaded(true);
                 setNewPost("");
                 setPostDescription("");
                 setPostSubtitle("");
