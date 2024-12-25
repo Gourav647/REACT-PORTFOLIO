@@ -27,6 +27,7 @@ import {
   DialogTitle,
   Fab,
   IconButton,
+  Snackbar,
   Stack,
   styled,
   Switch,
@@ -57,6 +58,7 @@ const Sidebar = () => {
     setDark,
     login,
     setDialogOpen,
+    uploaded
   } = useContext(Context);
 
 
@@ -133,7 +135,12 @@ const Sidebar = () => {
                 </Fab>
               </Tooltip>
             )}
-            <Newpost/>
+            <Newpost />
+            <Snackbar open={uploaded} autoHideDuration={6000}>
+              <Alert severity="success" color="success" onClose={() => { }} variant='filled'>
+                Uploaded successfully
+              </Alert>
+            </Snackbar>
           </Stack>
         </Stack>
       </Toolbar>
