@@ -20,6 +20,7 @@ const ContextProvider = (props) => {
     const [alert, setAlert] = useState(false);
     const [discardPost, setDiscardPost] = useState(false);
     const [isPending, setTransition] = useTransition();
+    const [uploaded,setUploaded] = useState(false);
 
     const handleChange =  (event) => {
         const file = event.target.files[0];
@@ -63,7 +64,9 @@ const ContextProvider = (props) => {
         discardPost,
         setDiscardPost,
         isPending,
-        setTransition
+        setTransition,
+        uploaded,
+        setUploaded
     }
 
     return (
