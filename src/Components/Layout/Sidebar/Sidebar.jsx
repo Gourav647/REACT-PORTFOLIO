@@ -58,9 +58,15 @@ const Sidebar = () => {
     setDark,
     login,
     setDialogOpen,
-    uploaded
+    uploaded,
+    setUploaded,
   } = useContext(Context);
+  const [position, setPosition] = useState({
+    vertical: "bottom",
+    horizontal: "right",
+  });
 
+  const {vertical, horizontal} = position;
 
   const handlOpen = () => {
     setDialogOpen(true);
@@ -136,8 +142,8 @@ const Sidebar = () => {
               </Tooltip>
             )}
             <Newpost />
-            <Snackbar open={uploaded} autoHideDuration={6000}>
-              <Alert severity="success" color="success" onClose={() => { }} variant='filled'>
+            <Snackbar open={uploaded} autoHideDuration={6000} anchorOrigin={{ vertical, horizontal }}>
+              <Alert severity="success" color="success" onClose={() => {setUploaded(false)}} variant='filled'>
                 Uploaded successfully
               </Alert>
             </Snackbar>
