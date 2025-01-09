@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useCallback, useContext } from 'react'
 import {
     Dialog,
     DialogActions,
@@ -62,7 +62,8 @@ const Newpost = () => {
         setDialogOpen(false);
     };
 
-    const handlePost = async () => {
+
+    const handlePost = useCallback(() => {
         setTransition(() => {
             if (newPost !== "" && postTitle !== "") {
                 setAlert(false);
@@ -78,7 +79,8 @@ const Newpost = () => {
                 setAlert(true);
             }
         });
-    };
+    }, [newPost, postTitle, posts, postSubTitle, postDescription])
+
     return (
         <Dialog
             fullWidth
