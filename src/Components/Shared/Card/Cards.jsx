@@ -2,10 +2,10 @@ import { useGSAP } from '@gsap/react'
 import { Favorite, Message, MoreVert, Share } from '@mui/icons-material'
 import { Avatar, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, Link, SwipeableDrawer, Typography } from '@mui/material'
 import { red } from '@mui/material/colors'
-import React, { useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import gsap from 'gsap'
 
-const Cards = (props) => {
+const Cards = memo(({title,subheader,img,description,onLiked,avatar}) => {
   const [liked, setLiked] = useState(false);
   const [likedPost, setLikedPost] = useState([])
 
@@ -23,10 +23,10 @@ const Cards = (props) => {
     <Card sx={{ width: "92%" }}>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[600] }} src={props.avatar} />
+          <Avatar sx={{ bgcolor: red[600] }} src={avatar} />
         }
-        title={props.title}
-        subheader={props.subheader}
+        title={title}
+        subheader={subheader}
         action={
           <IconButton>
             <MoreVert />
@@ -35,19 +35,19 @@ const Cards = (props) => {
       />
       <CardMedia
         component='img'
-        image={props.img}
+        image={img}
         alt='Image'
         sx={{ width: "100%", height: "29vw", objectFit: "cover" }}
       />
       <CardContent>
         <Typography variant='body2' sx={{ color: "text" }}>
-          {(props.description).split("").splice(0, 70)}... <Link color='text.light'>see more</Link>
+          {(description).split("").splice(0, 70)}... <Link color='text.light'>see more</Link>
         </Typography>
       </CardContent>
       <CardActions>
         <IconButton color={liked ? "warning" : "text"} onClick={(e) => {
           setLiked(!liked);
-          props.onLiked()
+          onLiked()
         }}>
           <Favorite className='like' />
         </IconButton>
@@ -76,6 +76,6 @@ const Cards = (props) => {
       </CardActions>
     </Card>
   )
-}
+})
 
 export default Cards
